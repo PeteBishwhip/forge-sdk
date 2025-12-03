@@ -66,13 +66,14 @@ $server = $forge->server($organizationId, $serverId);
 
 // Create a new server
 $server = $forge->createServer($organizationId, [
-    "provider" => "ocean2",
+    "provider" => ServerProviders::DIGITAL_OCEAN,
     "credential_id" => 1,
     "name" => "my-server",
     "type" => "app",
     "size" => "01",
-    "php_version" => "php84",
-    "region" => "nyc1"
+    "database_type" => InstallableServices::POSTGRES,
+    "php_version"=> InstallableServices::PHP_85,
+    "region" => "ams2"
 ]);
 ```
 
