@@ -4680,4 +4680,16 @@ class ForgeSDKTest extends TestCase
         $recipe = $forge->recipe('org-123', 5);
         $this->assertSame('org-123', $recipe->organizationId);
     }
+
+    public function test_post_returns_null_for_202_empty_body()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('POST', 'test-endpoint', ['json' => ['key' => 'value']])->andReturn(
+            new Response(202)
+        );
+
+        $result = $forge->post('test-endpoint', ['key' => 'value']);
+        $this->assertNull($result);
+    }
 }
