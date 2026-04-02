@@ -2394,16 +2394,17 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_command()
     {
+        $this->expectNotToPerformAssertions();
+
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/sites/1/commands', [
             'json' => ['command' => 'php artisan cache:clear'],
         ])->andReturn(
-            new Response(200, [], '{"data": {"id": 2, "command": "php artisan cache:clear", "status": "running"}}')
+            new Response(202)
         );
 
-        $command = $forge->createCommand('org-123', 1, 1, ['command' => 'php artisan cache:clear']);
-        $this->assertSame(2, $command->id);
+        $forge->createCommand('org-123', 1, 1, ['command' => 'php artisan cache:clear']);
     }
 
     public function test_deleting_command()
