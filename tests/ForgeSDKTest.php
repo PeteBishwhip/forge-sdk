@@ -2085,16 +2085,17 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_monitor()
     {
+        $this->expectNotToPerformAssertions();
+
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/monitors', [
             'json' => ['type' => 'disk', 'threshold' => '90'],
         ])->andReturn(
-            new Response(200, [], '{"data": {"id": 2, "type": "disk", "threshold": "90"}}')
+            new Response(202)
         );
 
-        $monitor = $forge->createMonitor('org-123', 1, ['type' => 'disk', 'threshold' => '90']);
-        $this->assertSame(2, $monitor->id);
+        $forge->createMonitor('org-123', 1, ['type' => 'disk', 'threshold' => '90']);
     }
 
     public function test_deleting_monitor()
