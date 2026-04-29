@@ -40,9 +40,14 @@ trait ManagesBackups
     /**
      * Create a new backup configuration.
      */
-    public function createBackupConfiguration(string $organizationSlug, int $serverId, array $data): void
+    public function createBackupConfiguration(string $organizationSlug, int $serverId, array $data): BackupConfiguration
     {
-        $this->post("orgs/{$organizationSlug}/servers/{$serverId}/database/backups", $data);
+        return $this->newResource(
+            BackupConfiguration::class,
+            $this->post("orgs/{$organizationSlug}/servers/{$serverId}/database/backups", $data)['data'] ?? [],
+            $organizationSlug,
+            $serverId,
+        );
     }
 
     /**

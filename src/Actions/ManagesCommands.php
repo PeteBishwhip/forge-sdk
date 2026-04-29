@@ -41,9 +41,15 @@ trait ManagesCommands
     /**
      * Create a new command.
      */
-    public function createCommand(string $organizationSlug, int $serverId, int $siteId, array $data): void
+    public function createCommand(string $organizationSlug, int $serverId, int $siteId, array $data): Command
     {
-        $this->post("orgs/{$organizationSlug}/servers/{$serverId}/sites/{$siteId}/commands", $data);
+        return $this->newResource(
+            Command::class,
+            $this->post("orgs/{$organizationSlug}/servers/{$serverId}/sites/{$siteId}/commands", $data)['data'] ?? [],
+            $organizationSlug,
+            $serverId,
+            $siteId,
+        );
     }
 
     /**
