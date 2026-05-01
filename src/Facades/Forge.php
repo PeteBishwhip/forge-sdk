@@ -99,7 +99,7 @@ use Laravel\Forge\ForgeManager;
  * Webhooks
  * @method static \Laravel\Forge\CursorPaginator webhooks(string $organizationSlug, int $serverId, int $siteId)
  * @method static \Laravel\Forge\Resources\Webhook webhook(string $organizationSlug, int $serverId, int $siteId, int $webhookId)
- * @method static \Laravel\Forge\Resources\Webhook createWebhook(string $organizationSlug, int $serverId, int $siteId, array $data)
+ * @method static void createWebhook(string $organizationSlug, int $serverId, int $siteId, array $data)
  * @method static void deleteWebhook(string $organizationSlug, int $serverId, int $siteId, int $webhookId)
  *
  * SSH Keys
@@ -111,13 +111,13 @@ use Laravel\Forge\ForgeManager;
  * Firewall Rules
  * @method static \Laravel\Forge\CursorPaginator firewallRules(string $organizationSlug, int $serverId)
  * @method static \Laravel\Forge\Resources\FirewallRule firewallRule(string $organizationSlug, int $serverId, int $ruleId)
- * @method static \Laravel\Forge\Resources\FirewallRule createFirewallRule(string $organizationSlug, int $serverId, array $data)
+ * @method static void createFirewallRule(string $organizationSlug, int $serverId, array $data)
  * @method static void deleteFirewallRule(string $organizationSlug, int $serverId, int $ruleId)
  *
  * Redirect Rules
  * @method static \Laravel\Forge\CursorPaginator redirectRules(string $organizationSlug, int $serverId, int $siteId)
  * @method static \Laravel\Forge\Resources\RedirectRule redirectRule(string $organizationSlug, int $serverId, int $siteId, int $ruleId)
- * @method static \Laravel\Forge\Resources\RedirectRule createRedirectRule(string $organizationSlug, int $serverId, int $siteId, array $data)
+ * @method static void createRedirectRule(string $organizationSlug, int $serverId, int $siteId, array $data)
  * @method static void deleteRedirectRule(string $organizationSlug, int $serverId, int $siteId, int $ruleId)
  *
  * Security Rules
@@ -129,7 +129,7 @@ use Laravel\Forge\ForgeManager;
  * Monitors
  * @method static \Laravel\Forge\CursorPaginator monitors(string $organizationSlug, int $serverId)
  * @method static \Laravel\Forge\Resources\Monitor monitor(string $organizationSlug, int $serverId, int $monitorId)
- * @method static void createMonitor(string $organizationSlug, int $serverId, array $data)
+ * @method static \Laravel\Forge\Resources\Monitor createMonitor(string $organizationSlug, int $serverId, array $data)
  * @method static void deleteMonitor(string $organizationSlug, int $serverId, int $monitorId)
  *
  * Nginx Templates

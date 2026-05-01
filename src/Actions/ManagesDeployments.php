@@ -43,15 +43,9 @@ trait ManagesDeployments
     /**
      * Create a new webhook.
      */
-    public function createWebhook(string $organizationSlug, int $serverId, int $siteId, array $data): Webhook
+    public function createWebhook(string $organizationSlug, int $serverId, int $siteId, array $data): void
     {
-        return $this->newResource(
-            Webhook::class,
-            $this->post("orgs/{$organizationSlug}/servers/{$serverId}/sites/{$siteId}/webhooks", $data)['data'] ?? [],
-            $organizationSlug,
-            $serverId,
-            $siteId,
-        );
+        $this->post("orgs/{$organizationSlug}/servers/{$serverId}/sites/{$siteId}/webhooks", $data);
     }
 
     /**

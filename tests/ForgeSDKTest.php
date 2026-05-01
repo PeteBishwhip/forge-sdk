@@ -1123,16 +1123,17 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_webhook()
     {
+        $this->expectNotToPerformAssertions();
+
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/123/sites/456/webhooks', [
             'json' => ['url' => 'https://example.com/webhook'],
         ])->andReturn(
-            new Response(200, [], '{"data": {"id": 2, "url": "https://example.com/webhook"}}')
+            new Response(202)
         );
 
-        $webhook = $forge->createWebhook('org-123', 123, 456, ['url' => 'https://example.com/webhook']);
-        $this->assertSame(2, $webhook->id);
+        $forge->createWebhook('org-123', 123, 456, ['url' => 'https://example.com/webhook']);
     }
 
     public function test_deleting_webhook()
@@ -2155,16 +2156,17 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_firewall_rule()
     {
+        $this->expectNotToPerformAssertions();
+
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/firewall-rules', [
             'json' => ['name' => 'HTTP Access', 'port' => '80'],
         ])->andReturn(
-            new Response(200, [], '{"data": {"id": 2, "name": "HTTP Access", "port": "80"}}')
+            new Response(202)
         );
 
-        $rule = $forge->createFirewallRule('org-123', 1, ['name' => 'HTTP Access', 'port' => '80']);
-        $this->assertSame(2, $rule->id);
+        $forge->createFirewallRule('org-123', 1, ['name' => 'HTTP Access', 'port' => '80']);
     }
 
     public function test_deleting_firewall_rule()
@@ -2206,17 +2208,16 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_monitor()
     {
-        $this->expectNotToPerformAssertions();
-
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/monitors', [
             'json' => ['type' => 'disk', 'threshold' => '90'],
         ])->andReturn(
-            new Response(202)
+            new Response(202, [], '{"data": {"id": 1, "type": "disk", "threshold": "90"}}')
         );
 
-        $forge->createMonitor('org-123', 1, ['type' => 'disk', 'threshold' => '90']);
+        $monitor = $forge->createMonitor('org-123', 1, ['type' => 'disk', 'threshold' => '90']);
+        $this->assertSame(1, $monitor->id);
     }
 
     public function test_deleting_monitor()
@@ -2466,16 +2467,17 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_redirect_rule()
     {
+        $this->expectNotToPerformAssertions();
+
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/sites/1/redirect-rules', [
             'json' => ['from' => '/blog', 'to' => '/articles', 'type' => 'redirect'],
         ])->andReturn(
-            new Response(200, [], '{"data": {"id": 2, "from": "/blog", "to": "/articles", "type": "redirect"}}')
+            new Response(202)
         );
 
-        $rule = $forge->createRedirectRule('org-123', 1, 1, ['from' => '/blog', 'to' => '/articles', 'type' => 'redirect']);
-        $this->assertSame(2, $rule->id);
+        $forge->createRedirectRule('org-123', 1, 1, ['from' => '/blog', 'to' => '/articles', 'type' => 'redirect']);
     }
 
     public function test_deleting_redirect_rule()
@@ -3789,16 +3791,17 @@ class ForgeSDKTest extends TestCase
 
     public function test_creating_backup_configuration()
     {
+        $this->expectNotToPerformAssertions();
+
         $forge = new Forge('123', $http = Mockery::mock(Client::class));
 
         $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/database/backups', [
             'json' => ['name' => 'Daily Backup', 'provider' => 's3'],
         ])->andReturn(
-            new Response(200, [], '{"data": {"id": 1, "name": "Daily Backup"}}')
+            new Response(202)
         );
 
         $forge->createBackupConfiguration('org-123', 1, ['name' => 'Daily Backup', 'provider' => 's3']);
-        $this->assertTrue(true);
     }
 
     public function test_updating_backup_configuration()
