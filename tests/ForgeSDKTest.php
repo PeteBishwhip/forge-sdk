@@ -3251,6 +3251,84 @@ class ForgeSDKTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function test_getting_domain_certificates()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('GET', 'orgs/org-123/servers/1/sites/1/domains/1/certificates', [])->andReturn(
+            new Response(200, [], '{"data": [{"id": 1, "status": "active", "active": true}], "meta": {"next_cursor": null, "per_page": 15}}')
+        );
+
+        $certs = $forge->domainCertificates('org-123', 1, 1, 1);
+        $this->assertInstanceOf(CursorPaginator::class, $certs);
+        $this->assertCount(1, $certs);
+    }
+
+    public function test_creating_certificate()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/sites/1/domains/1/certificates', [
+            'json' => ['type' => 'letsencrypt'],
+        ])->andReturn(
+            new Response(202, [], '{"data": {"id": 2, "type": "letsencrypt"}}')
+        );
+
+        $cert = $forge->createCertificate('org-123', 1, 1, 1, ['type' => 'letsencrypt']);
+        $this->assertSame(2, $cert->id);
+    }
+
+    public function test_getting_active_domain_certificate()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('GET', 'orgs/org-123/servers/1/sites/1/domains/1/certificates/active', [])->andReturn(
+            new Response(200, [], '{"data": {"id": 3, "active": true}}')
+        );
+
+        $cert = $forge->activeDomainCertificate('org-123', 1, 1, 1);
+        $this->assertSame(3, $cert->id);
+        $this->assertTrue($cert->active);
+    }
+
+    public function test_getting_certificate()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('GET', 'orgs/org-123/servers/1/sites/1/domains/1/certificates/5', [])->andReturn(
+            new Response(200, [], '{"data": {"id": 5, "status": "active"}}')
+        );
+
+        $cert = $forge->certificate('org-123', 1, 1, 1, 5);
+        $this->assertSame(5, $cert->id);
+    }
+
+    public function test_deleting_certificate()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('DELETE', 'orgs/org-123/servers/1/sites/1/domains/1/certificates/5', [])->andReturn(
+            new Response(202)
+        );
+
+        $forge->deleteCertificate('org-123', 1, 1, 1, 5);
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function test_creating_certificate_action()
+    {
+        $forge = new Forge('123', $http = Mockery::mock(Client::class));
+
+        $http->shouldReceive('request')->once()->with('POST', 'orgs/org-123/servers/1/sites/1/domains/1/certificates/5/actions', [
+            'json' => ['action' => 'renew'],
+        ])->andReturn(
+            new Response(202)
+        );
+
+        $forge->createCertificateAction('org-123', 1, 1, 1, 5, ['action' => 'renew']);
+        $this->expectNotToPerformAssertions();
+    }
+
     public function test_getting_team_member()
     {
         $forge = new Forge('123', $http = Mockery::mock(Client::class));

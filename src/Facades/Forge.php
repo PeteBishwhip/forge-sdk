@@ -80,6 +80,13 @@ use Laravel\Forge\ForgeManager;
  * @method static \Laravel\Forge\Resources\Certificate domainCertificate(string $organizationSlug, int $serverId, int $siteId, int $domainId)
  * @method static \Laravel\Forge\Resources\Certificate createDomainCertificate(string $organizationSlug, int $serverId, int $siteId, int $domainId, array $data)
  * @method static void deleteDomainCertificate(string $organizationSlug, int $serverId, int $siteId, int $domainId)
+ * @method static array createDomainCertificateAction(string $organizationSlug, int $serverId, int $siteId, int $domainId, array $data)
+ * @method static \Laravel\Forge\CursorPaginator domainCertificates(string $organizationSlug, int $serverId, int $siteId, int $domainId, array $query = [])
+ * @method static \Laravel\Forge\Resources\Certificate createCertificate(string $organizationSlug, int $serverId, int $siteId, int $domainId, array $data)
+ * @method static \Laravel\Forge\Resources\Certificate activeDomainCertificate(string $organizationSlug, int $serverId, int $siteId, int $domainId)
+ * @method static \Laravel\Forge\Resources\Certificate certificate(string $organizationSlug, int $serverId, int $siteId, int $domainId, int $certificateId)
+ * @method static void deleteCertificate(string $organizationSlug, int $serverId, int $siteId, int $domainId, int $certificateId)
+ * @method static void createCertificateAction(string $organizationSlug, int $serverId, int $siteId, int $domainId, int $certificateId, array $data)
  *
  * Heartbeats
  * @method static \Laravel\Forge\CursorPaginator heartbeats(string $organizationSlug, int $serverId, int $siteId)
